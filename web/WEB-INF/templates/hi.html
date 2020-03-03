@@ -1,0 +1,40 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Thymeleaf Demo</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <script th:src="@{../../a.js}"></script><!-- 不能連到 WEB-INF 裡 -->
+    <script th:include="~{testFragment::haha}"></script><!-- 檔名::fragment名(要先宣告) -->
+    <link rel="stylesheet" th:href="@{../../b.css}"/>
+
+    <script th:inline="javascript"> // 在JS裡,想取${}的變數需要兩步,這是第一步
+        function ttt() { // CDATA 是怕有特殊字元，可查實體參照
+            /*<![CDATA[*/
+            let tt = /*[[${session.xxx.cat.msg}]]*/ 'default text';  <!-- 這是第二步 -->
+            /*]]>*/
+            alert(tt);
+        }
+    </script>
+</head>
+<body>
+<p th:text="#{xxx.ooo}">default text</p>
+<p>Date : <span th:text="${now}">date no data</span></p>
+<p>msg : <span th:text="${c.getCat().getMsg()}">msg no data</span></p>
+<p>msg : <span th:text="${c.cat.msg}">msg no data</span></p>
+<p>map1 : <span th:text="${aaa}">map no data</span></p>
+<p>map2 : <span th:text="${bbb}">map no data</span></p>
+<p>plus : <span th:text="${1+1}">plus no data</span></p>
+<p>session : <span th:text="${session.xxx.getCat().getMsg()}">session no data</span></p>
+<p>session : <span th:text="${session.xxx.cat.msg}">session no data</span></p>
+
+<input type="button" value="test@" th:onclick="aaa()">
+<input type="button" value="test~" th:onclick="fra()">
+<input type="button" value="testVarInScript" onclick="ttt()">
+
+<!-- *{} 和 ${} 除了以下的用法外，其他都一樣，甚至可以混合使用，看官方文件 4.3 節 -->
+<div th:object="${c.cat}">
+    <p>msg: <span th:text="*{msg}">xxx</span></p>
+</div>
+</body>
+</html>
