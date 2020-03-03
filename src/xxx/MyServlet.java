@@ -4,6 +4,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import javax.servlet.ServletContext;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,8 +21,8 @@ public class MyServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         //request.getRequestDispatcher("/WEB-INF/templates/welcome.html").forward(request, response);
 
-        WebContext ctx = new WebContext(request, response, request.getServletContext(),
-                request.getLocale());
+        ServletContext application = request.getServletContext();
+        WebContext ctx = new WebContext(request, response, application, request.getLocale());
         ctx.setVariable("now", LocalDateTime.now().toString());
         ctx.setVariable("c", new Tiger(new Cat("hahaha")));
         Map<String, Object> map = new HashMap<>();
@@ -31,8 +32,9 @@ public class MyServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         session.setAttribute("xxx", new Tiger(new Cat("x")));
+        application.setAttribute("ooo", new Tiger(new Cat("o")));
 
-        var templateResolver = new ServletContextTemplateResolver(request.getServletContext());
+        var templateResolver = new ServletContextTemplateResolver(application);
         templateResolver.setPrefix("/WEB-INF/templates/");
         templateResolver.setSuffix(".html");
 

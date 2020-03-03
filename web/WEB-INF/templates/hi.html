@@ -11,9 +11,11 @@
     <script th:inline="javascript"> // 在JS裡,想取${}的變數需要兩步,這是第一步
         function ttt() { // CDATA 是怕有特殊字元，可查實體參照
             /*<![CDATA[*/
-            let tt = /*[[${session.xxx.cat.msg}]]*/ 'default text';  <!-- 這是第二步 -->
+            let s = /*[[${session.xxx.cat.msg}]]*/ 'default text';  <!-- 這是第二步 -->
+            let a = /*[[${application.ooo.cat.msg}]]*/ 'default text';  <!-- 這是第二步 -->
             /*]]>*/
-            alert(tt);
+            alert(s);
+            alert(a);
         }
     </script>
 </head>
@@ -27,6 +29,7 @@
 <p>plus : <span th:text="${1+1}">plus no data</span></p>
 <p>session : <span th:text="${session.xxx.getCat().getMsg()}">session no data</span></p>
 <p>session : <span th:text="${session.xxx.cat.msg}">session no data</span></p>
+<p>application : <span th:text="${application.ooo.cat.msg}">application no data</span></p>
 
 <input type="button" value="test@" th:onclick="aaa()">
 <input type="button" value="test~" th:onclick="fra()">
