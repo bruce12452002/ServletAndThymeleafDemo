@@ -11,9 +11,11 @@
     <script th:inline="javascript"> // 在JS裡,想取${}的變數需要兩步,這是第一步
         function ttt() { // CDATA 是怕有特殊字元，可查實體參照
             /*<![CDATA[*/
-            let s = /*[[${session.xxx.cat.msg}]]*/ 'default text';  <!-- 這是第二步 -->
-            let a = /*[[${application.ooo.cat.msg}]]*/ 'default text';  <!-- 這是第二步 -->
+            let n = /*[[${now}]]*/ 'default text1';  <!-- 這是第二步 -->
+            let s = /*[[${session.xxx.cat.msg}]]*/ 'default text2';  <!-- 這是第二步 -->
+            let a = /*[[${application.ooo.cat.msg}]]*/ 'default text3';  <!-- 這是第二步 -->
             /*]]>*/
+            alert(n);
             alert(s);
             alert(a);
         }
